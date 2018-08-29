@@ -1,0 +1,14 @@
+{
+  "root": true,
+  "parser": "babel-eslint",
+  "env": { "node": true },
+  "extends": ["prettier"],
+  "plugins": ["prettier"],
+  "rules": {
+    "prettier/prettier": "error",
+    "quotes": ["error", "single"],
+    "quote-props": ["error", "as-needed"],
+    "no-plusplus": 0,
+    "no-console": 0
+  }
+}
