@@ -7,4 +7,7 @@ module.exports = client => {
   client.on('message', reqEvent('message'));
 
   client.on('guildMemberAdd', reqEvent('guild-member-add'));
+
+  client.on('messageReactionAdd', reqEvent('reaction-add'));
+  client.on('messageReactionRemove', reqEvent('reaction-remove'));
 };

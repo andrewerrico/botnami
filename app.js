@@ -2,24 +2,18 @@ const Discord = require('discord.js');
 const client = new Discord.Client();
 const moment = require('moment');
 const chalk = require('chalk');
-
 const fs = require('fs');
 const config = require('./src/config.json');
-// const prefix = config.prefix;
-// const helpers = require('./src/helpers');
-
+const helpers = require('./src/helpers');
+const log = console.log;
 require('./src/util/event-loader.js')(client);
 
 global.config = config;
-
-// client.on('guildMemberAdd', member => {
-//   member.send('Welcome to the server! Cheers 🍺');
-//   // newUsers.set(member.id, member.user);
-// });
+global.helpers = helpers;
 
 client.on('channelCreate', channel => {
-  console.log(
-    `A ${channel.type} channel with the name of ${channel.name} was created at
+  log(
+    `A ${channel.type} channel named ${channel.name} was created at
     ${channel.createdAt} with the ID of ${channel.id}`
   );
 });
