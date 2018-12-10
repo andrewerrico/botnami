@@ -22,5 +22,4 @@
     "mixer": "https://mixer.com/api/v1/channels",
     "twitch": "https://api.twitch.tv/kraken"
   }
-
 }
