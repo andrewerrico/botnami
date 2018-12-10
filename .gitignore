@@ -20,4 +20,5 @@ yarn-error.log*
 *.sln
 *.sw*
 
-config.json
+auth.json
+/src/-archive

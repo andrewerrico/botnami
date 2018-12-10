@@ -1,24 +1,32 @@
 const chalk = require('chalk');
 const log = console.log;
+const { channels } = require('../data');
+
 module.exports = async (client, message) => {
-  global.client = client;
+  process.on('SIGINT', () => {
+    log('\nGracefully shutting down from SIGINT (Ctrl-C)');
+    // some other closing procedures go here
+    // db.destroy();
+    process.exit();
+  });
 
-  const readyMessage = `\n🍺 Hop Bot v${
-    config.version
-  } Connected and Ready 🍺\n`;
+  const readyMessage = `\n*** ${config.name} v${config.version} Ready ***\n`;
 
-  log('\033[2J');
-
+  if (process.env.NODE_ENV === 'dev')
+    log(chalk.green.bold('Running in development mode!'));
   log(chalk.blue.bold(readyMessage));
 
   try {
     // let link = await client.generateInvite(['ADMINISTRATOR']);
     // log(link);
-    // Fetch Pinned Rules in lobby channel
-    const channel = client.channels.get(helpers.getChannelId('lobby'));
+    // Dev bot does not have permissions for this...
+    // if (process.env.NODE_ENV !== 'dev') {
+    // Fetch Pinned Rules in welcome channel
+    const channel = client.channels.get(channels.welcome);
     await channel
       .fetchPinnedMessages()
-      .then(log(chalk.green('Pinned Messages Fetched Successfully\n')));
+      .then(log(chalk.green('Pinned Rules Fetched Successfully\n')));
+    // }
   } catch (e) {
     log(e.stack);
   }

@@ -1,7 +1,9 @@
+const chalk = require('chalk');
+const moment = require('moment');
 module.exports = client => {
-  console.log(`🍺 reconnecting at ${new Date()}`);
-  // client.channels
-  //   .get(helpers.getChannelId('logs'))
-  //   .send('🍺 connected and ready to serve.');
-  // });
+  const timestamp = `[${moment().format('YYYY-MM-DD HH:mm:ss')}]:`;
+
+  console.log(
+    `${timestamp} ${chalk.black.bold.bgYellow('WARN')} Reconnecting!`
+  );
 };

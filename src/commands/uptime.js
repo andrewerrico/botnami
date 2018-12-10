@@ -7,11 +7,34 @@ exports.run = (client, message, args) => {
   const seconds = Math.floor(totalSeconds % 60);
   let uptime = '';
   if (hours > 0) {
-    uptime = `${hours} hours`;
+    if (hours === 1) {
+      uptime = `${hours} hour `;
+    } else {
+      uptime = `${hours} hours `;
+    }
   }
   if (minutes > 0) {
-    uptime += `, ${minutes} minutes and`;
+    if (minutes === 1) {
+      uptime += `${minutes} minute and `;
+    } else {
+      uptime += `${minutes} minutes and `;
+    }
   }
-  uptime += `${seconds} seconds`;
+  if (seconds === 1) {
+    uptime += `${seconds} second`;
+  } else {
+    uptime += `${seconds} seconds`;
+  }
   message.channel.send(`**${botName}** has been up and running for ${uptime}!`);
+};
+
+exports.conf = {
+  aliases: []
+};
+
+exports.help = {
+  name: 'uptime',
+  category: 'Stats',
+  description: 'How long the bot has been running',
+  usage: 'uptime'
 };

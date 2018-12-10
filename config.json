@@ -1,0 +1,26 @@
+{
+  "prefix": "!!",
+  "name": "Botnami",
+  "version": "0.0.1",
+  "ownerID": "406474204809265172",
+  "getStartedEmoji": "🍺",
+  "rules": "479391146775150593",
+  "messages": {
+    "rules": "479391146775150593"
+  },
+  "roles": {
+    "follower": "477186296234639390",
+    "friend": "474936007431553045",
+    "hopper": "484799553833402388",
+    "mod": "474934298613514241",
+    "noob": "479390692733616138"
+  },
+
+  "apiURL": {
+    "beer": "https://api.punkapi.com/v2",
+    "puns": "http://www.murfguy.com/puns.php",
+    "mixer": "https://mixer.com/api/v1/channels",
+    "twitch": "https://api.twitch.tv/kraken"
+  }
+
+}

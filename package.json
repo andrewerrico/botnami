@@ -1,9 +1,12 @@
 {
-  "name": "hopbot",
+  "name": "botnami",
   "version": "0.1.0",
   "description": "Hopnami discord bot",
   "main": "app.js",
   "scripts": {
+    "start": "node app.js",
+    "dev": "NODE_ENV=dev node app.js",
+    "prod": "NODE_ENV=prod node app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Hopnami",
@@ -21,7 +24,10 @@
     "eslint-plugin-import": "^2.14.0",
     "eslint-plugin-prettier": "^2.6.2",
     "moment": "^2.22.2",
+    "mysql": "^2.16.0",
+    "node-gyp": "^3.8.0",
     "prettier": "^1.14.2",
-    "prettier-eslint": "^8.8.2"
+    "prettier-eslint": "^8.8.2",
+    "ws": "^6.0.0"
   }
 }

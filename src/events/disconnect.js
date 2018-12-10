@@ -1,8 +1,12 @@
+const chalk = require('chalk');
+const moment = require('moment');
+const { channels } = require('../data');
 module.exports = client => {
-  console.log('💔 💔 💔');
-  console.log(`🍺 disconnected at ${new Date()}`);
-  // client.channels
-  //   .get(helpers.getChannelId('logs'))
-  //   .send('🍺 disconnected at ${new Date()}.');
-  // });
+  let now = new Date();
+  client.channels
+    .get(channels.logs)
+    .send(`Disconnected at ${moment(now).format('LLLL')}.`);
+  console.log(
+    chalk.red('💔 Disconnected at', chalk.inverse(moment(now).format('LLLL')))
+  );
 };

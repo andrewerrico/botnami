@@ -1,43 +1,90 @@
 const Discord = require('discord.js');
 const client = new Discord.Client();
-const moment = require('moment');
 const chalk = require('chalk');
 const fs = require('fs');
-const config = require('./src/config.json');
-const helpers = require('./src/helpers');
-const log = console.log;
+const moment = require('moment');
+
+const { promisify } = require('util');
+const readdir = promisify(require('fs').readdir);
+
+const config = require('./config.json');
+
+// set token
+let token;
+if (typeof process.env.token !== 'undefined') {
+  token = process.env.token;
+} else {
+  const auth = require('./auth.json');
+  if (process.env.NODE_ENV === 'dev') {
+    token = auth.development.token;
+  } else {
+    token = auth.production.token;
+  }
+}
+
+// Let's start by getting some useful functions that we'll use throughout
+// the bot, like logs and elevation features.
+require('./src/util/functions.js')(client);
+
+// Load our global event loader
 require('./src/util/event-loader.js')(client);
 
+client.commands = new Discord.Collection();
+client.aliases = new Discord.Collection();
+
 global.config = config;
-global.helpers = helpers;
 
-client.on('channelCreate', channel => {
-  log(
-    `A ${channel.type} channel named ${channel.name} was created at
-    ${channel.createdAt} with the ID of ${channel.id}`
-  );
-});
+// Change prefix if in dev mode
+if (process.env.NODE_ENV === 'dev') config.prefix = '_';
 
-const reload = (message, cmd) => {
-  delete require.cache[require.resolve(`./src/commands/${cmd}`)];
-  try {
-    let cmdFile = require(`./src/commands/${cmd}`);
-  } catch (err) {
-    message.channel
-      .send(`Problem loading **${cmd}**: ${err}`)
-      // .then(response =>
-      //   response.delete(1000).catch(error => console.log(error.stack))
-      // )
-      .catch(error => console.log(error.stack));
-  }
-  message.channel
-    .send(`Command **${cmd}** reloaded successfully.`)
-    // .then(response =>
-    //   response.delete(1000).catch(error => console.log(error.stack))
-    // )
-    .catch(error => console.log(error.stack));
+const init = async () => {
+  // load commands into memory as a collection
+  const cmdFiles = await readdir('./src/commands/');
+  client.log('log', `Loading a total of ${cmdFiles.length} commands.`);
+  cmdFiles.forEach(f => {
+    if (!f.endsWith('.js')) return;
+    const response = client.loadCommand(f);
+    if (response) console.log(response);
+  });
+
+  client.login(token).catch(err => console.log(err));
 };
 
-exports.reload = reload;
+// clear console
+console.log('\033[2J');
 
-client.login(config.token);
+init();
+
+// client.on('channelCreate', channel => {
+//   console.log(
+//     chalk.yellow(
+//       `A ${channel.type} channel named ${channel.name} was created at ${
+//         channel.createdAt
+//       } with the ID of ${channel.id}`
+//     )
+//   );
+// });
+
+// const reload = (message, cmd) => {
+//   delete require.cache[require.resolve(`./src/commands/${cmd}`)];
+//   try {
+//     let cmdFile = require(`./src/commands/${cmd}`);
+//   } catch (err) {
+//     message.channel
+//       .send(`Problem loading **${cmd}**: ${err}`)
+//       // .then(response =>
+//       //   response.delete(1000).catch(error => console.log(error.stack))
+//       // )
+//       .catch(error => console.log(chalk.red.bold(error.stack)));
+//   }
+//   message.channel
+//     .send(`Command **${cmd}** reloaded successfully.`)
+//     // .then(response =>
+//     //   response.delete(1000).catch(error => console.log(error.stack))
+//     // )
+//     .catch(error => console.log(chalk.red.bold(error.stack)));
+// };
+
+// exports.reload = reload;
+
+// client.login(config.token);
